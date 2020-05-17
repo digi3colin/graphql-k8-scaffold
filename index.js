@@ -141,7 +141,7 @@ module.exports = ${className};
 }
 
 const codeGen = (schema) =>{
-  const codes = [];
+  const codes = new Map();
   const typeMap = getTypeMap(schema);
 
 //revserse belongs to and associate to create hasMany
@@ -155,8 +155,8 @@ const codeGen = (schema) =>{
     })
   });
 
-  typeMap.forEach(type =>{
-    codes.push(parseType(type));
+  typeMap.forEach((type, key) =>{
+    codes.set(key, parseType(type));
   })
 
   return codes;
