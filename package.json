@@ -1,0 +1,36 @@
+{
+  "name": "@komino/graphql-k8-scaffold",
+  "version": "0.0.1",
+  "description": "Parse GraphQL schema to K8 model and controller",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/digi3colin/graphql-k8-scaffold.git"
+  },
+  "keywords": [
+    "graphQL",
+    "K8",
+    "ORM",
+    "Model",
+    "Controller",
+    "Scaffold"
+  ],
+  "author": "Shiba Komino",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/digi3colin/graphql-k8-scaffold/issues"
+  },
+  "homepage": "https://github.com/digi3colin/graphql-k8-scaffold#readme",
+  "dependencies": {
+    "@komino/graphql-sqlite-ddl": "0.0.9",
+    "pluralize": "^8.0.0",
+    "snake-case": "^3.0.3"
+  },
+  "devDependencies": {
+    "graphql": "^15.0.0",
+    "jest": "^26.0.1"
+  }
+}
