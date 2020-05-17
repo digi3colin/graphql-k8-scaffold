@@ -159,7 +159,7 @@ const codeGen = (schema) =>{
     codes.push(parseType(type));
   })
 
-  return codes.join('');
+  return codes;
 }
 
 module.exports = {

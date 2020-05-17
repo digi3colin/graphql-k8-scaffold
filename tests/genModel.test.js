@@ -55,7 +55,7 @@ Person.belongsToMany = [
 module.exports = Person;
 `
 
-    expect(model).toBe(target);
+    expect(model.join("")).toBe(target);
 
   })
 
@@ -115,7 +115,7 @@ Person.belongsToMany = [
 module.exports = Person;
 `
 
-    expect(model).toBe(target);
+    expect(model.join("")).toBe(target);
 
   })
 
@@ -208,7 +208,7 @@ Blog.belongsToMany = [
 module.exports = Blog;
 `
 
-    expect(model).toBe(target);
+    expect(model.join("")).toBe(target);
   })
 
   test('hasAndBelongsToMany', ()=>{
@@ -299,6 +299,6 @@ module.exports = Collection;
 `;
 
     const model = codeGen(schema);
-    expect(model).toBe(target);
+    expect(model.join("")).toBe(target);
   })
 });
