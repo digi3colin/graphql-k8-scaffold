@@ -50,6 +50,28 @@ const typeToFields = (type)  =>{
   return defaultValues;
 }
 
+const typeToFieldTypes = (type)  =>{
+  const fieldTypes = new Map();
+
+  type.fields.forEach(field => {
+    const name = field.name.value;
+
+    const isORMFields = /^(id|created_at|updated_at)$/.test(name);
+    const isBelongs = /^belongsTo/.test(name);
+    const isAssoicateTo = /^associateTo/.test(name);
+    const isHasAndBelongsToMany = /^hasAndBelongsToMany/.test(name);
+    if ( isORMFields || isBelongs || isAssoicateTo || isHasAndBelongsToMany) return;
+
+    const fieldType = getFieldType(field.type);
+    const isNonNullType = field.type.kind === 'NonNullType';
+
+    fieldTypes.set(name, fieldType + (isNonNullType ? '!' : ''));
+  });
+
+
+  return fieldTypes;
+}
+
 const typeToForeignKeys = (type) =>{
   const result = new Map();
 
@@ -96,6 +118,7 @@ const parseType = (type) =>{
   const tableName = snakeCase(pluralize(type.name.value));
   const className = pluralize.singular(type.name.value);
   const defaultValues = typeToFields(type);
+  const fieldTypes = typeToFieldTypes(type);
 
   const belongsTo = type.belongsTo;
   const hasMany = type.hasMany || new Map();
@@ -120,9 +143,9 @@ ${Array.from(defaultValues).map((x ) => `    this.${x[0]} = ${x[1]};`).join('\n'
 ${className}.jointTablePrefix = '${snakeCase(className)}';
 ${className}.tableName = '${tableName}';
 
-${className}.fields = [
-${Array.from(defaultValues).map(x => `"${x[0]}"`).join(', ')}
-];
+${className}.fields = new Map([
+${Array.from(fieldTypes).map(x => `["${x[0]}", "${x[1]}"]`).join(',\n')}
+]);
 
 ${className}.belongsTo = new Map([
 ${Array.from(belongsTo).map(x => `["${x[0]}", "${x[1]}"]`).join(',\n')}

@@ -36,9 +36,12 @@ class Person extends ORM{
 Person.jointTablePrefix = 'person';
 Person.tableName = 'persons';
 
-Person.fields = [
-"first_name", "last_name", "phone", "email"
-];
+Person.fields = new Map([
+["first_name", "String!"],
+["last_name", "String!"],
+["phone", "String"],
+["email", "String"]
+]);
 
 Person.belongsTo = new Map([
 
@@ -96,9 +99,14 @@ class Person extends ORM{
 Person.jointTablePrefix = 'person';
 Person.tableName = 'persons';
 
-Person.fields = [
-"name", "foo", "koo", "bar", "tar", "haa"
-];
+Person.fields = new Map([
+["name", "String!"],
+["foo", "Boolean!"],
+["koo", "Boolean!"],
+["bar", "String!"],
+["tar", "Float!"],
+["haa", "Int!"]
+]);
 
 Person.belongsTo = new Map([
 
@@ -153,9 +161,9 @@ class User extends ORM{
 User.jointTablePrefix = 'user';
 User.tableName = 'users';
 
-User.fields = [
-"name"
-];
+User.fields = new Map([
+["name", "String"]
+]);
 
 User.belongsTo = new Map([
 
@@ -189,9 +197,9 @@ class Blog extends ORM{
 Blog.jointTablePrefix = 'blog';
 Blog.tableName = 'blogs';
 
-Blog.fields = [
-"handle"
-];
+Blog.fields = new Map([
+["handle", "String"]
+]);
 
 Blog.belongsTo = new Map([
 ["owner_id", "User"]
@@ -243,9 +251,9 @@ class Product extends ORM{
 Product.jointTablePrefix = 'product';
 Product.tableName = 'products';
 
-Product.fields = [
-"name"
-];
+Product.fields = new Map([
+["name", "String"]
+]);
 
 Product.belongsTo = new Map([
 
@@ -279,9 +287,9 @@ class Collection extends ORM{
 Collection.jointTablePrefix = 'collection';
 Collection.tableName = 'collections';
 
-Collection.fields = [
-"name"
-];
+Collection.fields = new Map([
+["name", "String"]
+]);
 
 Collection.belongsTo = new Map([
 
