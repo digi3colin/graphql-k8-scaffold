@@ -1,6 +1,6 @@
 {
   "name": "@komino/graphql-k8-scaffold",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Parse GraphQL schema to K8 model and controller",
   "main": "index.js",
   "scripts": {
@@ -25,7 +25,7 @@
   },
   "homepage": "https://github.com/digi3colin/graphql-k8-scaffold#readme",
   "dependencies": {
-    "@komino/graphql-sqlite-ddl": "0.0.9",
+    "@komino/graphql-sqlite-ddl": "0.0.12",
     "pluralize": "^8.0.0",
     "snake-case": "^3.0.3"
   },

@@ -309,4 +309,57 @@ module.exports = Collection;
     const model = codeGen(schema);
     expect([...model.values()].join("")).toBe(target);
   })
+
+  test('JSON type', ()=>{
+      const schema = buildSchema(schemaHeader + `
+type Person {
+  name: String,
+  meta: JSON
+}`);
+
+    const target =
+`const {K8} = require('@komino/k8');
+const ORM = K8.require('ORM');
+
+class Person extends ORM{
+  constructor(id, options) {
+    super(id, options);
+    if(id)return;
+
+    //foreignKeys
+
+
+    //fields
+    this.name = null;
+    this.meta = null;
+  }
+}
+
+Person.jointTablePrefix = 'person';
+Person.tableName = 'persons';
+
+Person.fields = new Map([
+["name", "String"],
+["meta", "JSON"]
+]);
+
+Person.belongsTo = new Map([
+
+]);
+
+Person.hasMany = new Map([
+
+]);
+
+Person.belongsToMany = [
+
+];
+
+module.exports = Person;
+`
+
+
+    const model = codeGen(schema);
+    expect([...model.values()].join("")).toBe(target);
+  })
 });
