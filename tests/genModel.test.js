@@ -47,9 +47,9 @@ Person.belongsTo = new Map([
 
 ]);
 
-Person.hasMany = new Map([
+Person.hasMany = [
 
-]);
+];
 
 Person.belongsToMany = [
 
@@ -112,9 +112,9 @@ Person.belongsTo = new Map([
 
 ]);
 
-Person.hasMany = new Map([
+Person.hasMany = [
 
-]);
+];
 
 Person.belongsToMany = [
 
@@ -169,9 +169,9 @@ User.belongsTo = new Map([
 
 ]);
 
-User.hasMany = new Map([
+User.hasMany = [
 ["owner_id", "Blog"]
-]);
+];
 
 User.belongsToMany = [
 
@@ -205,9 +205,9 @@ Blog.belongsTo = new Map([
 ["owner_id", "User"]
 ]);
 
-Blog.hasMany = new Map([
+Blog.hasMany = [
 
-]);
+];
 
 Blog.belongsToMany = [
 
@@ -259,9 +259,9 @@ Product.belongsTo = new Map([
 
 ]);
 
-Product.hasMany = new Map([
+Product.hasMany = [
 
-]);
+];
 
 Product.belongsToMany = [
 
@@ -295,9 +295,9 @@ Collection.belongsTo = new Map([
 
 ]);
 
-Collection.hasMany = new Map([
+Collection.hasMany = [
 
-]);
+];
 
 Collection.belongsToMany = [
 "Product"
@@ -347,9 +347,9 @@ Person.belongsTo = new Map([
 
 ]);
 
-Person.hasMany = new Map([
+Person.hasMany = [
 
-]);
+];
 
 Person.belongsToMany = [
 
@@ -358,6 +358,139 @@ Person.belongsToMany = [
 module.exports = Person;
 `
 
+
+    const model = codeGen(schema);
+    expect([...model.values()].join("")).toBe(target);
+  })
+
+  test('Customer, addresses and customer attribute', ()=>{
+    const schema = buildSchema(schemaHeader + `
+type Customers {
+  username : String!
+}
+
+type Addresses {
+  company : String
+  belongsTo: Customers
+}
+
+type CustomerAttributes{
+  value: String
+  belongsTo : Customers
+}
+    `);
+
+    const target =
+`const {K8} = require('@komino/k8');
+const ORM = K8.require('ORM');
+
+class Customer extends ORM{
+  constructor(id, options) {
+    super(id, options);
+    if(id)return;
+
+    //foreignKeys
+
+
+    //fields
+    this.username = null;
+  }
+}
+
+Customer.jointTablePrefix = 'customer';
+Customer.tableName = 'customers';
+
+Customer.fields = new Map([
+["username", "String!"]
+]);
+
+Customer.belongsTo = new Map([
+
+]);
+
+Customer.hasMany = [
+["customer_id", "Address"],
+["customer_id", "CustomerAttribute"]
+];
+
+Customer.belongsToMany = [
+
+];
+
+module.exports = Customer;
+const {K8} = require('@komino/k8');
+const ORM = K8.require('ORM');
+
+class Address extends ORM{
+  constructor(id, options) {
+    super(id, options);
+    if(id)return;
+
+    //foreignKeys
+    this.customer_id = null;
+
+    //fields
+    this.company = null;
+  }
+}
+
+Address.jointTablePrefix = 'address';
+Address.tableName = 'addresses';
+
+Address.fields = new Map([
+["company", "String"]
+]);
+
+Address.belongsTo = new Map([
+["customer_id", "Customer"]
+]);
+
+Address.hasMany = [
+
+];
+
+Address.belongsToMany = [
+
+];
+
+module.exports = Address;
+const {K8} = require('@komino/k8');
+const ORM = K8.require('ORM');
+
+class CustomerAttribute extends ORM{
+  constructor(id, options) {
+    super(id, options);
+    if(id)return;
+
+    //foreignKeys
+    this.customer_id = null;
+
+    //fields
+    this.value = null;
+  }
+}
+
+CustomerAttribute.jointTablePrefix = 'customer_attribute';
+CustomerAttribute.tableName = 'customer_attributes';
+
+CustomerAttribute.fields = new Map([
+["value", "String"]
+]);
+
+CustomerAttribute.belongsTo = new Map([
+["customer_id", "Customer"]
+]);
+
+CustomerAttribute.hasMany = [
+
+];
+
+CustomerAttribute.belongsToMany = [
+
+];
+
+module.exports = CustomerAttribute;
+`;
 
     const model = codeGen(schema);
     expect([...model.values()].join("")).toBe(target);

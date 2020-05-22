@@ -121,7 +121,7 @@ const parseType = (type) =>{
   const fieldTypes = typeToFieldTypes(type);
 
   const belongsTo = type.belongsTo;
-  const hasMany = type.hasMany || new Map();
+  const hasMany = type.hasMany || [];
   const belongsToMany = typeToBelongsToMany(type);
 
   return `const {K8} = require('@komino/k8');
@@ -151,9 +151,9 @@ ${className}.belongsTo = new Map([
 ${Array.from(belongsTo).map(x => `["${x[0]}", "${x[1]}"]`).join(',\n')}
 ]);
 
-${className}.hasMany = new Map([
+${className}.hasMany = [
 ${Array.from(hasMany).map(x => `["${x[0]}", "${x[1]}"]`).join(',\n')}
-]);
+];
 
 ${className}.belongsToMany = [
 ${Array.from(belongsToMany).map(x => `"${x}"`).join(',\n')}
@@ -173,8 +173,8 @@ const codeGen = (schema) =>{
 
     type.belongsTo.forEach((v, k) => {
       const t = typeMap.get(pluralize(v))
-      t.hasMany = t.hasMany || new Map();
-      t.hasMany.set(k, pluralize.singular(key));
+      t.hasMany = t.hasMany || [];
+      t.hasMany.push([k, pluralize.singular(key)]);
     })
   });
 
