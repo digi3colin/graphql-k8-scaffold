@@ -172,7 +172,7 @@ const codeGen = (schema) =>{
     type.belongsTo = typeToForeignKeys(type);
 
     type.belongsTo.forEach((v, k) => {
-      const t = typeMap.get(pluralize(v))
+      const t = typeMap.get(v) || typeMap.get(pluralize(v));
       t.hasMany = t.hasMany || [];
       t.hasMany.push([k, pluralize.singular(key)]);
     })
